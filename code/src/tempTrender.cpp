@@ -6,6 +6,18 @@
 
 using namespace std;
 
+//Function taken from https://stackoverflow.com/questions/874134/find-out-if-string-ends-with-another-string-in-c
+//maybe should go in its own file and then get included here ?
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+  //compares two strings to check if the first string ends with the second string
+  //e.g. hasEnding("binary", "nary") returns True
+	if (fullString.length() >= ending.length()) {
+	    return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+	} else {
+	    return false;
+	}
+}
+
 tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath has now been stored in member variable _path
   cout << "The user supplied " << filePath <<" as the path to the data file.\n";
   //std::cout << "You should probably store this information in a member variable of the class! Good luck with the project! :)\n";
@@ -14,7 +26,24 @@ tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath h
 
 void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //Make a histogram of the temperature on this day
 
-  cout<<"I am stil working!" << endl;
+  //Incorrect input handling
+  if (monthToCalculate>12 || dayToCalculate>31) {
+    cout << "Invalid date requested. Please input a valid date with the format tempOnDay(Month, Day)" << endl;
+    return;
+  }
+
+  //Convert inputed ints to strings, and combine them in "02-14" format
+  string month_prefix = "";
+  if (monthToCalculate < 10) { 
+    month_prefix = "0";
+  }
+  string day_prefix = "";
+  if (dayToCalculate < 10) {
+    day_prefix = "0";
+  }
+  string dateToCalculate_sting = month_prefix+to_string(monthToCalculate)+"-"+day_prefix+to_string(dayToCalculate);
+  cout<<"The requested date was " << dateToCalculate_sting << endl;
+
   //Code to open the csv files
   fstream fin; //File pointer
   fin.open(_path, ios::in); //Open file at '_path'
@@ -23,34 +52,38 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
 	return;
   }
 
+  // CREATE HISTOGRAM that we will fill with data from specified date
+	//(name, title;xlabel;ylabel, bins, xmin, xmax)
+  TH1D* hDayTemp = new TH1D("one_day_tempt", ";Temperature [C]; Entries", 100, -20, 40); 
+
+  //Iterate through file, line by line, checking if the date matches with input
   vector<string> row;
-  string line, cell;
-  string delimiter=";";
-  
+  string line, cell, date_string;
+  int temp;
   int i = 0;
-  int j = 0;
+  int j = 0; //TODO: unused?
   while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
     i++;
     row.clear();
 
-    stringstream lineStream(line);
+    stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
 	while (lineStream.good() && getline(lineStream, cell, ';')) {
 		j++;
         row.push_back(cell);
     }
-
-	if(i%10000==0){
-	  cout << "line " << i << ", at date " << row[0] << " the temperature was " << row[2] << endl;
+	date_string = row[0]; //save the date of the line
+    
+    //If the date matches with requested date
+    if (hasEnding(date_string, dateToCalculate_sting)) {
+      temp = stoi(row[2]);
+      cout << "line " << i << ", at date " << date_string << " the temperature was " << temp << endl;
+      hDayTemp->Fill(temp);
     }
+
     j=0;
   }
 
-
-  // CREATE HISTOGRAM that we will fill with data from specified date
-	//(name, title;xlabel;ylabel, bins, xmin, xmax)
-  //TH1D* hDayTemp = new TH1D("one_day_tempt", ";Temperature [C]; Entries", 100, -20, 40); 
-
-  //hDayTemp->Draw();
+  hDayTemp->Draw();
 }
 // void tempTrender::tempOnDay(int dateToCalculate) const {} //Make a histogram of the temperature on this date
 // void tempTrender::tempPerDay() const {} //Make a histogram of the average temperature of each day of the year
