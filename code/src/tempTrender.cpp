@@ -104,6 +104,53 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
 
   //TODO: Fit gaussian to histogram to calulcate probabilities?
 }
+void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a line-graph showin mean-yearly temperature over time.
+  
+//TODO: Modify code to separate date by "-" to check year, when the first year in our range is found, begin storing data
+//Temp of each date must
+
+
+  cout<<"The requested time period was " << yearStart << "-" << yearEnd << endl;
+
+  //Code to open the csv files
+  fstream fin; //File pointer
+  fin.open(_path, ios::in); //Open file at '_path'
+  if (fin.fail()) { //Check that file can be opened.
+    cout << "File could not be opened. Please check that the provided path is correct." << endl;
+	  return;
+  };
+
+    //Iterate through file, line by line, checking if the date matches with input
+  vector<string> row, rowdate;
+  string line, cell, date_string;
+
+  int temp;
+  int i = 0;
+  while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
+    i++;
+    row.clear();
+
+    stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
+	while (lineStream.good() && getline(lineStream, cell, ';')) {
+        row.push_back(cell);
+    }
+	date_string = row[0]; //save the date of the line 
+  
+  while (lineStream.good() && getline(lineStream, date_string, '-')) { //slice date string by "-" and save to vector 'rowdata'
+        rowdate.push_back(cell);
+    }
+    YearCurrent = stoi(rowdate[0]);  // Save year to integer
+    //If the year is within the specified range
+    if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
+      
+      //cout << "line " << i << ", at date " << date_string << " the temperature was " << temp << endl;
+      
+    }
+
+  }
+
+}
+
 // void tempTrender::tempOnDay(int dateToCalculate) const {} //Make a histogram of the temperature on this date
 // void tempTrender::tempPerDay() const {} //Make a histogram of the average temperature of each day of the year
 // void tempTrender::hotCold() const {} //Make a histogram of the hottest and coldest day of the year
