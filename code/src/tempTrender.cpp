@@ -2,6 +2,7 @@
 #include<fstream>
 #include <sstream>
 #include<TH1F.h>
+#include<TProfile.h>
 #include<TLegend.h>
 #include <TCanvas.h> // canvas object
 #include "tempTrender.h"
@@ -22,7 +23,7 @@ bool hasEnding (std::string const &fullString, std::string const &ending) {
 }
 
 int date_to_number (int month, int day) {
-  //takes month and date and returns the corresponding # out of 356 days in a year
+  //takes month and date and returns the corresponding # out of 365 days in a year
   int month_sum = 0; //contribution of months to the day number
   int days_in_month [12] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
   for (int i=0; i<month; i++) {
@@ -67,7 +68,7 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
   }
 
   //TODO: I can't figure out how to do the damn degree symbol in the xlabel :/
-  // CREATE HISTOGRAM that we will fill with data from specified date
+  // CREATE PROFILE HISTOGRAM that we will fill with data from specified date
 	//(name, title;xlabel;ylabel, bins, xmin, xmax)
   TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [C]; Entries", 100, -20, 40); 
 
@@ -85,7 +86,6 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
         row.push_back(cell);
     }
 	date_string = row[0]; //save the date of the line
-    
     //If the date matches with requested date
     if (hasEnding(date_string, dateToCalculate_sting)) {
       temp = stoi(row[2]);
@@ -125,7 +125,39 @@ void tempTrender::tempPerDay() const { //Make a histogram of the average tempera
     cout << "File could not be opened. Please check that the provided path is correct." << endl;
 	return;
   }
-  cout << date_to_number(10,31) << endl;
+
+  // CREATE TProfile HISTOGRAM, specifying option "s" to draw standard deviation
+	//(name, title;xlabel;ylabel, bins, xmin, xmax, option)
+  auto* hTempPerDay = new TProfile("temp_per_day", "Temperature per day;Day of year;Temperature [C]", 365, 1, 365, "s"); 
+
+  //Iterate through file, line by line, checking if the date matches with input
+  vector<string> row, year_month_day;
+  string line, cell, date_string, date_item;
+  int month, day, temp;
+  while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
+    row.clear();
+    year_month_day.clear();
+    stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
+	while (lineStream.good() && getline(lineStream, cell, ';')) {
+        row.push_back(cell);
+    }
+	date_string = row[0]; //save the date of the line
+    if (any_of(date_string.begin(), date_string.end(), ::isdigit)) { //crude check to see if 'date_string' is indeed a date
+      temp = stoi(row[2]);
+
+      stringstream dateStream(date_string); //split 'date_string' into year, month, day using 'getline()', save results in 'year_mont_day' vector
+      while (dateStream.good() && getline(dateStream, date_item, '-')) { 
+        year_month_day.push_back(date_item);
+      }
+      month = stoi(year_month_day[1]);
+      day = stoi(year_month_day[2]);
+      if (month==2 && day==29) { //Deal with leap years by skipping 02/29
+        continue;
+      }
+      hTempPerDay->Fill(date_to_number(month,day), temp); //Fill temp value in corresponding bin
+    } 
+  }
+  hTempPerDay->Draw();
 }
 // void tempTrender::hotCold() const {} //Make a histogram of the hottest and coldest day of the year
 // void tempTrender::tempPerYear(int yearToExtrapolate) const {} //Make a histogram of average temperature per year, then fit and extrapolate to the given year
