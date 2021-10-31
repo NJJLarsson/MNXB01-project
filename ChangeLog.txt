@@ -6,3 +6,7 @@ Antton: Started implementing the first of the examples, the histogram of tempera
 
 -- okt29 --
 Antton: Finished rudimentary imlpementation of the basic histogram example.
+
+-- okt 31 --
+-19:21-
+Jesper: Created Function to read data and calculate yearly average temperatures.
