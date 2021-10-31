@@ -4,5 +4,8 @@ GitHub repo created.
 -- okt 28 --
 Antton: Started implementing the first of the examples, the histogram of temperatures for a single day.
 
--- okt29 --
-Antton: Finished rudimentary imlpementation of the basic histogram example.
+-- okt 29 --
+Antton: Finished rudimentary imlpementation of the first histogram example.
+
+-- okt 31 --
+Antton: Finished rudimentary implementation of second example.
