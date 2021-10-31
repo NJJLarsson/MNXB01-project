@@ -122,6 +122,9 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
 
   cout<<"The requested time period was " << yearStart << "-" << yearEnd << endl;
 
+  //Create histogram to store our data
+  TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [C]; Entries", 100, -20, 40);
+  
   //Code to open the csv files
   fstream fin; //File pointer
   fin.open(_path, ios::in); //Open file at '_path'
@@ -131,11 +134,19 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
   };
 
     //Iterate through file, line by line, checking if the date matches with input
-  vector<string> row, rowdate;
+  vector<string> row, rowdate, Last_Date;
+  
   string line, cell, date_string;
 
-  int temp;
-  int i = 0;
+  double tempentry; 
+  dobule tempdailysum = 0, tempyearlysum = 0;
+  int sumentries = 0;
+  vector<double> tempdailyaverage, YearlyAverage;
+  double  tempyearlyaverage;
+  int i = 0 ;
+  int Year_Last = 0;
+  int Year_Count = 0;
+  
   while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
     i++;
     row.clear();
@@ -152,11 +163,31 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
     YearCurrent = stoi(rowdate[0]);  // Save year to integer
     //If the year is within the specified range
     if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
+      tempentry = stoi(row[2]) ;  //Check wheter current date matches last
+      if (Last_Date.empty() || Last_Date==date_string){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
+        tempdailysum = +tempentry ;
+        sumentries = +1 ;
+
+      } else{
+        tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages, then zero tempdailysum & sumentries
+        tempdailysum = 0;
+        sumentries = 0;
+        Year_Count = +1;
+        //Then perform the same action as otherwise
+        tempdailysum = +tempentry ;
+        sumentries = +1 ;
+        if(Year_Last = 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
+          tempyearlyaverage = std::reduce(tempdailyaverage.begin(), tempdailyaverage.end()) / Year_Count;
+          tempdailyaverage.clear();
+          YearlyAverage.pushback(tempyearlyaverage);
+        }
+      }
       
-      //cout << "line " << i << ", at date " << date_string << " the temperature was " << temp << endl;
       
     }
-
+    //update a copy of the date to check against in the next iteration
+    Last_Date = date_string;
+    Year_Last = YearCurrent;
   }
 
 }
