@@ -21,6 +21,16 @@ bool hasEnding (std::string const &fullString, std::string const &ending) {
 	}
 }
 
+int date_to_number (int month, int day) {
+  //takes month and date and returns the corresponding # out of 356 days in a year
+  int month_sum = 0; //contribution of months to the day number
+  int days_in_month [12] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30};
+  for (int i=0; i<month; i++) {
+    month_sum += days_in_month[i];
+  }
+  return month_sum+day;
+}
+
 //Member Functions
 tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath has now been stored in member variable _path
   cout << "The user supplied " << filePath <<" as the path to the data file.\n";
@@ -152,6 +162,17 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
 }
 
 // void tempTrender::tempOnDay(int dateToCalculate) const {} //Make a histogram of the temperature on this date
-// void tempTrender::tempPerDay() const {} //Make a histogram of the average temperature of each day of the year
+
+void tempTrender::tempPerDay() const { //Make a histogram of the average temperature of each day of the year
+
+  //Code to open the csv files
+  fstream fin; //File pointer
+  fin.open(_path, ios::in); //Open file at '_path'
+  if (fin.fail()) { //Check that file can be opened.
+    cout << "File could not be opened. Please check that the provided path is correct." << endl;
+	return;
+  }
+  cout << date_to_number(10,31) << endl;
+}
 // void tempTrender::hotCold() const {} //Make a histogram of the hottest and coldest day of the year
 // void tempTrender::tempPerYear(int yearToExtrapolate) const {} //Make a histogram of average temperature per year, then fit and extrapolate to the given year
