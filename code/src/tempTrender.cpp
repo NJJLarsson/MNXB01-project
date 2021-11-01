@@ -134,19 +134,21 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
   };
 
     //Iterate through file, line by line, checking if the date matches with input
-  vector<string> row, rowdate, Last_Date;
+  vector<string> row, rowdate;
   
-  string line, cell, date_string;
+  string line, cell, date_string, Last_Date;
 
   double tempentry; 
-  dobule tempdailysum = 0, tempyearlysum = 0;
+  double tempdailysum = 0; 
+  double tempyearlysum = 0;
   int sumentries = 0;
   vector<double> tempdailyaverage, YearlyAverage;
   double  tempyearlyaverage;
   int i = 0 ;
   int Year_Last = 0;
   int Year_Count = 0;
-  
+  int YearCurrent;
+
   while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
     i++;
     row.clear();
@@ -176,10 +178,10 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
         //Then perform the same action as otherwise
         tempdailysum = +tempentry ;
         sumentries = +1 ;
-        if(Year_Last = 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
-          tempyearlyaverage = std::reduce(tempdailyaverage.begin(), tempdailyaverage.end()) / Year_Count;
+        if(Year_Last == 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
+          tempyearlyaverage = std::accumulate(tempdailyaverage.begin(), tempdailyaverage.end(), decltype(vector)::value_type(0)) / Year_Count;
           tempdailyaverage.clear();
-          YearlyAverage.pushback(tempyearlyaverage);
+          YearlyAverage.push_back(tempyearlyaverage);
         }
       }
       
