@@ -6,7 +6,6 @@ class Measurement {
 public:
   Measurement(std::string date, double measurement);
 
-private:
   const std::string date;
   const double measurement;
 };
