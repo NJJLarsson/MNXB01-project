@@ -44,6 +44,18 @@ int Measurement::measurement_year() const {
   return std::stoi(parsed_date_items[0]);
 }
 
+double Measurements::mean() const {
+  double sum{0};
+  for (Measurement m : Measurements::measurements) {
+    sum += m.measurement;
+  }
+
+  return sum / Measurements::measurements.size();
+}
+void Measurements::push_back(Measurement m) {
+  Measurements::measurements.push_back(m);
+}
+
 void run(int month_int) {
   Month month = (Month)month_int;
   std::ifstream file(

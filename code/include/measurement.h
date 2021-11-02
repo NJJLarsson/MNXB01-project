@@ -2,6 +2,7 @@
 #define MEASUREMENT_H
 
 #include <string>
+#include <vector>
 enum Month {
   jan = 1,
   feb = 2,
@@ -28,6 +29,14 @@ public:
 
 private:
   std::vector<std::string> parse_date() const;
+};
+
+class Measurements {
+public:
+  double mean() const;
+  void push_back(Measurement);
+
+  std::vector<Measurement> measurements;
 };
 
 // takes a comma delimetered line from the dataset, and builds a measurement object
