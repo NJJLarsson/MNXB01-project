@@ -37,6 +37,11 @@ Month Measurement::measurement_month() const {
 
   return (Month)std::stoi(parsed_date_items[1]);
 }
+int Measurement::measurement_year() const {
+  auto parsed_date_items = Measurement::parse_date();
+
+  return std::stoi(parsed_date_items[0]);
+}
 
 void run() {
   std::ifstream file(

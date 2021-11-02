@@ -22,6 +22,7 @@ public:
   Measurement(std::string date, double measurement);
 
   Month measurement_month() const;
+  int measurement_year() const;
   const std::string date;
   const double measurement;
 
