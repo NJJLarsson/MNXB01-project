@@ -1,6 +1,7 @@
 #include "../include/measurement.h"
 #include <fstream>
 #include <iostream>
+#include <map>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -43,7 +44,8 @@ int Measurement::measurement_year() const {
   return std::stoi(parsed_date_items[0]);
 }
 
-void run() {
+void run(int month_int) {
+  Month month = (Month)month_int;
   std::ifstream file(
       "/Users/enniomara/Downloads/MNXB01-project "
       "2/datasets/smhi-opendata_1_105370_20210926_100841_Falun.csv");
@@ -58,9 +60,21 @@ void run() {
   }
 
   std::vector<Measurement> measurements;
+
   while (getline(file, line)) {
-    measurements.push_back(measurementFromLine(line));
+    Measurement measurement = measurementFromLine(line);
+    if (measurement.measurement_month() == month) {
+      measurements.push_back(measurementFromLine(line));
+    }
+  }
+
+  // bucket measurements per year
+  std::map<int, std::vector<Measurement>> measurements_per_year;
+  for (Measurement m : measurements) {
+      measurements_per_year[m.measurement_year()].push_back(m);
   }
 
   std::cout << measurements.size() << std::endl;
+  std::cout << measurements[0].measurement_month() << std::endl;
+  std::cout << measurements_per_year.size() << std::endl;
 }
