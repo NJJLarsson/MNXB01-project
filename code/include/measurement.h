@@ -13,4 +13,6 @@ public:
 // takes a comma delimetered line from the dataset, and builds a measurement object
 Measurement measurementFromLine(std::string line);
 
+void run();
+
 #endif
