@@ -71,8 +71,7 @@ void run(int month_int) {
     }
   }
 
-  std::vector<Measurement> measurements;
-
+  Measurements measurements{};
   while (getline(file, line)) {
     Measurement measurement = measurementFromLine(line);
     if (measurement.measurement_month() == month) {
@@ -82,11 +81,11 @@ void run(int month_int) {
 
   // bucket measurements per year
   std::map<int, std::vector<Measurement>> measurements_per_year;
-  for (Measurement m : measurements) {
-      measurements_per_year[m.measurement_year()].push_back(m);
+  for (Measurement m : measurements.measurements) {
+    measurements_per_year[m.measurement_year()].push_back(m);
   }
 
-  std::cout << measurements.size() << std::endl;
-  std::cout << measurements[0].measurement_month() << std::endl;
+  std::cout << measurements.measurements.size() << std::endl;
+  std::cout << measurements.measurements[0].measurement_month() << std::endl;
   std::cout << measurements_per_year.size() << std::endl;
 }
