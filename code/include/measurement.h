@@ -24,6 +24,9 @@ public:
   Month measurement_month() const;
   const std::string date;
   const double measurement;
+
+private:
+  std::vector<std::string> parse_date() const;
 };
 
 // takes a comma delimetered line from the dataset, and builds a measurement object

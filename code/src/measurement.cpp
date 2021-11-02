@@ -21,7 +21,7 @@ Measurement measurementFromLine(std::string line) {
   return Measurement(row[0], std::stod(row[2]));
 }
 
-Month Measurement::measurement_month() const {
+std::vector<std::string> Measurement::parse_date() const {
   // why c++ wouln't have date parsing in the std is beyond be
   std::stringstream date(Measurement::date);
   std::string date_item;
@@ -29,6 +29,11 @@ Month Measurement::measurement_month() const {
   while (date.good() && getline(date, date_item, '-')) {
     parsed_date_items.push_back(date_item);
   }
+
+  return parsed_date_items;
+}
+Month Measurement::measurement_month() const {
+  auto parsed_date_items = Measurement::parse_date();
 
   return (Month)std::stoi(parsed_date_items[1]);
 }
