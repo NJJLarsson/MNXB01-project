@@ -31,6 +31,13 @@ int date_to_number (int month, int day) {
   return month_sum+day;
 }
 
+double VecAvg(vector<double> v){ //Average of vector elements
+  double sum = 0;
+  for(int i=0; i < v.size(); i++){
+    sum += v[i];
+  }
+  return sum/v.size();
+} 
 //Member Functions
 tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath has now been stored in member variable _path
   cout << "The user supplied " << filePath <<" as the path to the data file.\n";
@@ -114,6 +121,7 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
 
   //TODO: Fit gaussian to histogram to calulcate probabilities?
 }
+
 void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a line-graph showin mean-yearly temperature over time.
   
 //TODO: Modify code to separate date by "-" to check year, when the first year in our range is found, begin storing data
@@ -167,19 +175,19 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
     if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
       tempentry = stoi(row[2]) ;  //Check wheter current date matches last
       if (Last_Date.empty() || Last_Date==date_string){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
-        tempdailysum = +tempentry ;
-        sumentries = +1 ;
+        tempdailysum += tempentry ;
+        sumentries++ ;
 
       } else{
         tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages, then zero tempdailysum & sumentries
         tempdailysum = 0;
         sumentries = 0;
-        Year_Count = +1;
+        Year_Count++;
         //Then perform the same action as otherwise
         tempdailysum = +tempentry ;
-        sumentries = +1 ;
+        sumentries++ ;
         if(Year_Last == 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
-          tempyearlyaverage = std::accumulate(tempdailyaverage.begin(), tempdailyaverage.end(), decltype(vector)::value_type(0)) / Year_Count;
+          tempyearlyaverage = VecAvg(tempdailyaverage);
           tempdailyaverage.clear();
           YearlyAverage.push_back(tempyearlyaverage);
         }
