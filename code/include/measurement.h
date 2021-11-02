@@ -6,6 +6,7 @@ class Measurement {
 public:
   Measurement(std::string date, double measurement);
 
+  int measurement_month() const;
   const std::string date;
   const double measurement;
 };
