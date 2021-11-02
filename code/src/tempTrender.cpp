@@ -125,8 +125,6 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
 
 void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a line-graph showin mean-yearly temperature over time.
   
-//TODO: Modify code to separate date by "-" to check year, when the first year in our range is found, begin storing data
-//Temp of each date must
 
 
   cout<<"The requested time period was " << yearStart << "-" << yearEnd << endl;
@@ -145,7 +143,7 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
     //Iterate through file, line by line, checking if the date matches with input
   vector<string> row, rowdate;
   
-  string line, cell, date_string, Last_Date;
+  string line, cell, date_string, YearString, Last_Date;
 
   double tempentry; 
   double tempdailysum = 0; 
@@ -164,43 +162,43 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
 
     stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
 	while (lineStream.good() && getline(lineStream, cell, ';')) {
-        row.push_back(cell);
-    }
+    row.push_back(cell);
+  }
 	date_string = row[0]; //save the date of the line 
   
-  while (lineStream.good() && getline(lineStream, date_string, '-')) { //slice date string by "-" and save to vector 'rowdata'
-        rowdate.push_back(cell);
-    }
-    YearCurrent = stoi(rowdate[0]);  // Save year to integer
-    //If the year is within the specified range
-    if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
-      tempentry = stoi(row[2]) ;  //Check wheter current date matches last
-      if (Last_Date.empty() || Last_Date==date_string){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
-        tempdailysum += tempentry ;
-        sumentries++ ;
+  YearString = date_string.substr(0, 4);
+  //cout << YearString << endl;
+  //YearCurrent = stoi(YearString);  //TODO: Get this to save to an integer properly
+    // Save year to integer
+  //If the year is within the specified range
+  if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
+    tempentry = stoi(row[2]) ;  //Check wheter current date matches last
+    if (Last_Date.empty() || Last_Date==date_string){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
+      tempdailysum += tempentry ;
+      sumentries++ ;
 
-      } else{
-        tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages, then zero tempdailysum & sumentries
-        tempdailysum = 0;
-        sumentries = 0;
-        Year_Count++;
-        //Then perform the same action as otherwise
-        tempdailysum += tempentry ;
-        sumentries++ ;
-        if(Year_Last == 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
-          tempyearlyaverage = VecAvg(tempdailyaverage);
-          tempdailyaverage.clear();
-          YearlyAverage.push_back(tempyearlyaverage);
-        }
+    } else{
+      tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages, then zero tempdailysum & sumentries
+      tempdailysum = 0;
+      sumentries = 0;
+      Year_Count++;
+      //Then perform the same action as otherwise
+      tempdailysum += tempentry ;
+      sumentries++ ;
+      if(Year_Last == 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
+        tempyearlyaverage = VecAvg(tempdailyaverage);
+        tempdailyaverage.clear();
+        YearlyAverage.push_back(tempyearlyaverage);
       }
-      
-      
     }
+      
+      
+  }
     //update a copy of the date to check against in the next iteration
     Last_Date = date_string;
-    Year_Last = YearCurrent;
+    Year_Last = YearCurrent; //For testing cut
   }
-
+  cout << "The average temperatures of " << YearlyAverage.size() << " years were calculated" << endl;
 }
 
 // void tempTrender::tempOnDay(int dateToCalculate) const {} //Make a histogram of the temperature on this date
@@ -214,7 +212,7 @@ void tempTrender::tempPerDay() const { //Make a histogram of the average tempera
     cout << "File could not be opened. Please check that the provided path is correct." << endl;
 	return;
   }
-  cout << date_to_number(10,31) << endl;
+  
 }
 // void tempTrender::hotCold() const {} //Make a histogram of the hottest and coldest day of the year
 // void tempTrender::tempPerYear(int yearToExtrapolate) const {} //Make a histogram of average temperature per year, then fit and extrapolate to the given year
