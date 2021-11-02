@@ -1,8 +1,8 @@
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include <sstream>
-#include<TH1F.h>
-#include<TLegend.h>
+#include <TH1F.h>
+#include <TLegend.h>
 #include <TCanvas.h> // canvas object
 #include "tempTrender.h"
 
@@ -33,7 +33,8 @@ int date_to_number (int month, int day) {
 
 double VecAvg(vector<double> v){ //Average of vector elements
   double sum = 0;
-  for(int i=0; i < v.size(); i++){
+  int denom = v.size();
+  for(int i=0; i < denom; i++){
     sum += v[i];
   }
   return sum/v.size();
@@ -131,7 +132,7 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
   cout<<"The requested time period was " << yearStart << "-" << yearEnd << endl;
 
   //Create histogram to store our data
-  TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [C]; Entries", 100, -20, 40);
+  //TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [C]; Entries", 100, -20, 40);
   
   //Code to open the csv files
   fstream fin; //File pointer
@@ -184,7 +185,7 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { //create a 
         sumentries = 0;
         Year_Count++;
         //Then perform the same action as otherwise
-        tempdailysum = +tempentry ;
+        tempdailysum += tempentry ;
         sumentries++ ;
         if(Year_Last == 0 || Year_Last==YearCurrent){ //If year has changed, sum up all daily entries and average them out.
           tempyearlyaverage = VecAvg(tempdailyaverage);
