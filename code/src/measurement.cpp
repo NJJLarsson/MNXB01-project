@@ -1,16 +1,15 @@
-#include "../include/measurement.h"
-#include "TCanvas.h"
-#include "TF1.h"
-#include "TGraph.h"
-#include "TLegend.h"
+#include "measurement.h"
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <sstream>
 #include <string>
 #include <vector>
+
 #include "TCanvas.h"
+#include "TF1.h"
 #include "TGraph.h"
+#include "TLegend.h"
 
 Measurement::Measurement(std::string date, double measurement)
     : date(date), measurement(measurement) {}
