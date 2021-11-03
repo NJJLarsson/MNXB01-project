@@ -9,3 +9,10 @@ Antton: Finished rudimentary imlpementation of the first histogram example.
 
 -- okt 31 --
 Antton: Finished rudimentary implementation of second example.
+
+- nov 02 --
+Ennio: Started work of measuring monthly temperature fluctuations, over all
+years
+
+- nov 03 -
+Ennio: Finished monthly temperature fluctuations
