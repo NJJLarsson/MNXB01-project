@@ -97,7 +97,7 @@ void run(std::string path_to_file, int month_int) {
   TGraph *gr = new TGraph();
 
   for (auto p : measurements_per_year) {
-    gr->AddPoint(p.first, p.second.mean());
+    gr->SetPoint(gr->GetN(), p.first, p.second.mean());
   }
 
   TF1 *f = new TF1("func", "[1] + [0]*x", 1800, 2025);
