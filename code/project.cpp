@@ -1,5 +1,6 @@
 #include "tempTrender.h"
 #include <string>
+#include "measurement.h"
 
 void project() {
 	const std::string pathToFile = "/home/antton/MNXB01-project/datasets/smhi-opendata_1_162870_20210926_101011_Lulea.csv"; //Put the path to your data file here
@@ -10,4 +11,6 @@ void project() {
 	t.tempPerDay();
 	//t.hotCold();
 	//t.tempPerYear(2050);
+	// Analyze each year on november
+	run(pathToFile, 11);
 }

@@ -13,7 +13,7 @@ void rootlogon() {
   // Tell the compiler where to look for headers. Use the same kinds of flags
   //  that you've seen in the course. Note that paths cannot be relative or use
   //  ~
-  gSystem->AddIncludePath("-I/home/einarelen/project/include -I/home/antton/MNXB01-project/code/include");
+  gSystem->AddIncludePath("-I/home/einarelen/project/include -I/home/antton/MNXB01-project/code/include -I/Users/enniomara/gitProjects/MNXB01-project/code/include");
   //  You can add multiple flags if you have multiple directories to add
   // gSystem->AddIncludePath("-I/home/einarelen/project/include -I/home/einarelen/project/external/include");
   // Or you can keep adding them one by one, which looks neater
@@ -29,6 +29,7 @@ void rootlogon() {
   // If you want to skip that, you can link using the Rpath method
   // gSystem->AddLinkedLibs(" -L/home/einarelen/project/external/lib64 -Wl,-rpath=/home/einarelen/project/external/lib64 -lfmt");
 
+  gROOT->ProcessLine(".L src/measurement.cpp+"); //Load the classes that we want to use automatically - Convenient!
   gROOT->ProcessLine(".L src/tempTrender.cpp+"); //Load the classes that we want to use automatically - Convenient!
   gROOT->ProcessLine(".L project.cpp+"); //The + means to recompile only if it changed sine last time
   //Now you can type project() to invoke the function defined in project
