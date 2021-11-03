@@ -5,6 +5,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "TCanvas.h"
+#include "TGraph.h"
 
 Measurement::Measurement(std::string date, double measurement)
     : date(date), measurement(measurement) {}
@@ -89,4 +91,16 @@ void run(int month_int) {
   std::cout << measurements.measurements[0].measurement_month() << std::endl;
   std::cout << measurements_per_year.size() << std::endl;
   std::cout << measurements_per_year[1900].mean() << std::endl;
+
+  TCanvas *c1 = new TCanvas("c1", "A Simple Graph Example", 200, 10, 500, 300);
+  TGraph *gr = new TGraph();
+
+  for (auto p : measurements_per_year) {
+    gr->AddPoint(p.first, p.second.mean());
+  }
+
+  // A - draw axis
+  // L - draw line between points
+  // * - draw points
+  gr->Draw("AL*");
 }
