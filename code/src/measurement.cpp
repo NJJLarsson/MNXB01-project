@@ -62,11 +62,9 @@ void Measurements::push_back(Measurement m) {
   Measurements::measurements.push_back(m);
 }
 
-void run(int month_int) {
+void run(std::string path_to_file, int month_int) {
   Month month = (Month)month_int;
-  std::ifstream file(
-      "/Users/enniomara/Downloads/MNXB01-project "
-      "2/datasets/smhi-opendata_1_105370_20210926_100841_Falun.csv");
+  std::ifstream file(path_to_file);
 
   std::string line;
   // Read until we encouter "Datum;", which means that the next lines will be
