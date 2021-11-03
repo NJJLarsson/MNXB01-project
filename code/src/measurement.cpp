@@ -80,7 +80,7 @@ void run(int month_int) {
   }
 
   // bucket measurements per year
-  std::map<int, std::vector<Measurement>> measurements_per_year;
+  std::map<int, Measurements> measurements_per_year;
   for (Measurement m : measurements.measurements) {
     measurements_per_year[m.measurement_year()].push_back(m);
   }
@@ -88,4 +88,5 @@ void run(int month_int) {
   std::cout << measurements.measurements.size() << std::endl;
   std::cout << measurements.measurements[0].measurement_month() << std::endl;
   std::cout << measurements_per_year.size() << std::endl;
+  std::cout << measurements_per_year[1900].mean() << std::endl;
 }
