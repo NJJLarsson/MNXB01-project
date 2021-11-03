@@ -15,4 +15,5 @@ Ennio: Started work of measuring monthly temperature fluctuations, over all
 years
 
 - nov 03 -
+Antton: Added the tempOnDay that works with day number. General fixes and tweaks.
 Ennio: Finished monthly temperature fluctuations

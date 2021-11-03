@@ -3,8 +3,8 @@ Repo for the final project of the MNXB01 course at Lund University. Autumn 2021.
 
 Group H
 
+	Ennio Mara
 	Jesper Larsson
-
 	Antton Lamarca
 
 ## Usage
@@ -26,11 +26,4 @@ Or create a tempTrender object and call the specific member functions you are in
 
 ## State of the project:
 
-Currently 1/3 plots have been implemented.
-
-## General stuff #TODO:
-* Adress the "Can you predict the probability..." question on page 4 of the pdf. 
-
-
-
-
+Currently 2/3 plots have been implemented. 2 more are in progress.
