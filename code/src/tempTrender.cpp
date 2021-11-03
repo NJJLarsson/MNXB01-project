@@ -68,10 +68,9 @@ void tempTrender::tempOnDay(int monthToCalculate, int dayToCalculate) const { //
 	return;
   }
 
-  //TODO: I can't figure out how to do the damn degree symbol in the xlabel :/
   // CREATE PROFILE HISTOGRAM that we will fill with data from specified date
 	//(name, title;xlabel;ylabel, bins, xmin, xmax)
-  TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [C]; Entries", 100, -20, 40); 
+  TH1D* hDayTemp = new TH1D("one_day_tempt", "Temperature for date;Temperature [\xb0 C]; Entries", 100, -20, 40); 
 
   //Iterate through file, line by line, checking if the date matches with input
   vector<string> row;
@@ -134,10 +133,9 @@ void tempTrender::tempOnDay(int dateToCalculate) const { //Make a histogram of t
 	return;
   }
 
-  //TODO: I can't figure out how to do the damn degree symbol in the xlabel :/
   // CREATE PROFILE HISTOGRAM that we will fill with data from specified date
 	//(name, title;xlabel;ylabel, bins, xmin, xmax)
-  TH1D* hDayTemp2 = new TH1D("one_day_tempt_2", "Temperature for date;Temperature [C]; Entries", 100, -20, 40);
+  TH1D* hDayTemp2 = new TH1D("one_day_tempt_2", "Temperature for date;Temperature [\xb0 C]; Entries", 100, -20, 40);
 
   //Iterate through file, line by line, checking if the date matches with input
   vector<string> row, year_month_day;
@@ -201,7 +199,7 @@ void tempTrender::tempPerDay() const { //Make a histogram of the average tempera
 
   // CREATE TProfile HISTOGRAM, specifying option "s" to draw standard deviation
 	//(name, title;xlabel;ylabel, bins, xmin, xmax, option)
-  auto* hTempPerDay = new TProfile("temp_per_day", "Temperature per day;Day of year;Temperature [C]", 365, 1, 365, "s"); 
+  auto* hTempPerDay = new TProfile("temp_per_day", "Temperature per day;Day of year;Temperature [\xb0 C]", 365, 1, 365, "s"); 
 
   //Iterate through file, line by line, checking if the date matches with input
   vector<string> row, year_month_day;
