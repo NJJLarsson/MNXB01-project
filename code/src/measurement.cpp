@@ -50,6 +50,10 @@ int Measurement::measurement_year() const {
 }
 
 double Measurements::mean() const {
+  if (Measurements::measurements.size() == 0) {
+    return 0.0;
+  }
+
   double sum{0};
   for (Measurement m : Measurements::measurements) {
     sum += m.measurement;
