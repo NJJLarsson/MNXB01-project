@@ -20,12 +20,13 @@ enum Month {
 
 class Measurement {
 public:
+  Measurement() = default;
   Measurement(std::string date, double measurement);
 
   Month measurement_month() const;
   int measurement_year() const;
-  const std::string date;
-  const double measurement;
+  const std::string date = "";
+  const double measurement = 0;
 
 private:
   std::vector<std::string> parse_date() const;
