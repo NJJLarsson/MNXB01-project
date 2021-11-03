@@ -1,4 +1,8 @@
 #include "../include/measurement.h"
+#include "TCanvas.h"
+#include "TF1.h"
+#include "TGraph.h"
+#include "TLegend.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -98,6 +102,12 @@ void run(int month_int) {
   for (auto p : measurements_per_year) {
     gr->AddPoint(p.first, p.second.mean());
   }
+
+  TF1 *f = new TF1("func", "[1] + [0]*x", 1800, 2025);
+  f->SetLineStyle(2);
+  f->SetLineColor(8);
+  gr->Fit(f);
+  f->Draw();
 
   // A - draw axis
   // L - draw line between points
