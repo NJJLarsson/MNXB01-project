@@ -9,3 +9,6 @@ Antton: Finished rudimentary imlpementation of the first histogram example.
 
 -- okt 31 --
 Antton: Finished rudimentary implementation of second example.
+
+-- nov 03 --
+Antton: Added the tempOnDay that works with day number. General fixes and tweaks.
