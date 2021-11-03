@@ -91,7 +91,6 @@ void run(std::string path_to_file, int month_int) {
   std::cout << measurements.measurements.size() << std::endl;
   std::cout << measurements.measurements[0].measurement_month() << std::endl;
   std::cout << measurements_per_year.size() << std::endl;
-  std::cout << measurements_per_year[1900].mean() << std::endl;
 
   TCanvas *c1 = new TCanvas("c1", "A Simple Graph Example", 200, 10, 500, 300);
   TGraph *gr = new TGraph();
