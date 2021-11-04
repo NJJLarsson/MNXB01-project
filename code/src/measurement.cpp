@@ -114,4 +114,7 @@ void run(std::string path_to_file, int month_int) {
   // L - draw line between points
   // * - draw points
   gr->Draw("AL*");
+
+  std::string out = "measurement" + std::to_string(month_int) + ".png";
+  c4->SaveAs(out.c_str());
 }
