@@ -104,7 +104,8 @@ void run(std::string path_to_file, int month_int) {
   }
 
   TF1 *f = new TF1("func", "[1] + [0]*x", 1800, 2025);
-  f->SetLineStyle(2);
+  f->SetLineStyle(1);
+  f->SetLineWidth(6);
   f->SetLineColor(8);
   gr->Fit(f);
   f->Draw();
