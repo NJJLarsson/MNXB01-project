@@ -96,7 +96,7 @@ void run(std::string path_to_file, int month_int) {
   std::cout << measurements.measurements[0].measurement_month() << std::endl;
   std::cout << measurements_per_year.size() << std::endl;
 
-  TCanvas *c1 = new TCanvas("c1", "A Simple Graph Example", 200, 10, 500, 300);
+  TCanvas *c4 = new TCanvas("c4", "4 - Example yearly mean graph", 200, 10, 500, 300);
   TGraph *gr = new TGraph();
 
   for (auto p : measurements_per_year) {
