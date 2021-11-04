@@ -341,6 +341,8 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const {
   }
 
   cout << "The average temperatures of " << YearlyAverage.size() << " years were calculated" << endl;
-  TCanvas* c5 = new TCanvas("c5", "5- Yearly mean", 900, 600);
+  TCanvas* c5 = new TCanvas("c5", "5- Yearly average temperature", 900, 600);
+	c5->DrawFrame(yearStart-2,5,yearEnd+2,11.5);
+	gPad->SetGrid(1, 1);
   graph1->Draw();
 }
