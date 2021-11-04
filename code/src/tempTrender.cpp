@@ -40,7 +40,8 @@ double VecAvg(vector<double> v){ //Average of vector elements
     sum += v[i];
   }
   return sum/denom;
-} 
+}
+
 //Member Functions
 // #0
 tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath has now been stored in member variable _path
@@ -153,7 +154,7 @@ void tempTrender::tempOnDay(int dateToCalculate) const { //Make a histogram of t
   int i = 0;
   while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
     i++;
-    if(i>11) { //Skip header lines of the csv file. Not the cleanest but will do for now.
+    if(i>13) { //Skip header lines of the csv file. Not the cleanest but will do for now.
 	
       row.clear();
       year_month_day.clear();

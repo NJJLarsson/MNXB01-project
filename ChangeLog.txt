@@ -8,21 +8,19 @@ Antton: Started implementing the first of the examples, the histogram of tempera
 Antton: Finished rudimentary imlpementation of the first histogram example.
 
 -- okt 31 --
-Antton: Finished rudimentary implementation of second example.
+Antton: Finished rudimentary implementation of second example, tempPerDay().
 
 -- nov 1 --
 Jesper: Created Function to read data and calculate yearly average temperatures.
 
 -- nov 02 --
-Ennio: Started work of measuring monthly temperature fluctuations, over all
-years
+Ennio: Started work of measuring monthly temperature fluctuations, over all years.
 
 -- nov 03 --
-Antton: Added the tempOnDay that works with day number. General fixes and tweaks.
+Antton: Added the tempOnDay() that works with day number. General fixes and tweaks.
 Ennio: Finished monthly temperature fluctuations
 
 -- nov 04 --
-Antton: Helped fix the tempMeanYearly function. pushed changes to the PR directly.
+Antton: Helped fix the tempMeanYearly() function. pushed changes to the PR directly. Added .tex files for report.
 Ennio: Changed the monthly temperature fit line to be more clear and saved
 measurements to png files.
-

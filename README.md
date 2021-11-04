@@ -31,7 +31,9 @@ You can find information about the development steps of the project in the 'Chan
 All the code is stored in the 'code/' directory. It contains the main 'project.cpp' file as well as the 'rootlogon.C' file.
 The 'code/src/' directory contains the 'tempTrender.cpp' file, which has code for three of the proposed example graphs and an original graph that calculates the mean yearly temperature for a city in a given range of years.
 The 'measurement.cpp' file contains code for another original graph that calculates average temperatures for the same month over the years.
-The header files for both are stored in 'code/include/'.
+Header files for both are stored in 'code/include/'.
+
+The 'report/' directory contains the .tex files and images necessary to generate the report. Please run the 'main.tex' file to obtain the final PDF.
 
 ## Workplan
 
