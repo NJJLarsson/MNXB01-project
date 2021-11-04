@@ -142,7 +142,6 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const {
   vector<string> row, rowdate;
   
   string line, cell, date_string, YearString, Last_Date;
-
   double tempentry; 
   double tempdailysum = 0; 
   double tempyearlysum = 0;
@@ -153,7 +152,8 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const {
   int k= 0;
   int Year_Last = 0;
   int Year_Count = 0;
-  int YearCurrent;
+  int YearCurrent = 0;
+  bool RepeatedDate = false;
 
   while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
     i++;
@@ -161,52 +161,67 @@ void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const {
 
     stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
 	while (lineStream.good() && getline(lineStream, cell, ';')) {
-    row.push_back(cell);
-  }
+      row.push_back(cell);
+    }
 	if(i >= 20){ //Does this mean that the user can't select the first year of a dataset?
               // Yes. Too bad!
-    date_string = row[0]; //save the date of the line 
-    YearString = date_string.substr(0, 4);
-    cout << YearString << endl;
-    YearCurrent = stoi(YearString);  
-    // Save year to integer
-  }
+      date_string = row[0]; //save the date of the line
+      if (Last_Date==date_string) {
+        RepeatedDate = true;
+      } else {
+        RepeatedDate = false;
+      }
+      YearString = date_string.substr(0, 4);
+      YearCurrent = stoi(YearString);// Save year to integer
+    } else {
+      continue;
+    }
+
   
   //If the year is within the specified range
-  if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
-    tempentry = stoi(row[2]) ;  //Check wheter current date matches last
-    cout << Last_Date << endl;
-    cout << date_string << endl;
-    if (Last_Date.empty() || Last_Date==date_string){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
-      tempdailysum += tempentry ;
-      sumentries++ ;
-      cout << "Same Day" << endl;
-    } else{
-      cout << "New Day" << endl;
-      tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages, then zero tempdailysum & sumentries
-      tempdailysum = 0;
-      sumentries = 0;
-      Year_Count++;
-      //Then perform the same action as otherwise
-      tempdailysum += tempentry ;
-      sumentries++ ;
-      if(Year_Last == 0 || Year_Last!=YearCurrent){ //If year has changed, sum up all daily entries and average them out.
-        cout << Year_Last << YearCurrent << "Happy New Year" << endl;
-        tempyearlyaverage = VecAvg(tempdailyaverage);
-        tempdailyaverage.clear();
-        YearlyAverage.push_back(tempyearlyaverage);
-        graph1->SetPoint(k,YearCurrent, tempyearlyaverage);
-        k++ ;
+    if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
+      tempentry = stoi(row[2]); //Save temp as int
+
+      //Check wheter current date matches last
+      if (RepeatedDate){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
+        tempdailysum += tempentry ;
+        sumentries++ ;
+      } else { //New day we haven't seen before
+        if (Last_Date.empty()) { //first loop
+          tempdailysum += tempentry ;
+          sumentries++ ;
+        } else { //all other loops beyond the first
+          tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages 
+          tempdailysum = 0; //Reset tempdailysum & sumentries
+          sumentries = 0;
+
+          //Start calculation for new date
+          tempdailysum += tempentry;
+          sumentries++;
+
+          if(Year_Last == 0 || Year_Last!=YearCurrent){ //If year has changed, sum up all daily entries and average them out.
+            Year_Count++; //keep count of years we've seen
+            //cout << Year_Last << YearCurrent << "Happy New Year" << endl;
+            tempyearlyaverage = VecAvg(tempdailyaverage);
+            tempdailyaverage.clear();
+            YearlyAverage.push_back(tempyearlyaverage);
+            graph1->SetPoint(k,YearCurrent, tempyearlyaverage);
+            k++ ;
+          }
+        }
       }
+    
+    } else { //if year not in the desired range
+      continue;
     }
-      
-      
-  }
     //update a copy of the date to check against in the next iteration
     Last_Date = date_string;
     Year_Last = YearCurrent;
+
   }
+
   cout << "The average temperatures of " << YearlyAverage.size() << " years were calculated" << endl;
+  TCanvas* c5 = new TCanvas("c5", "5- Yearly mean", 900, 600);
   graph1->Draw();
 }
 
