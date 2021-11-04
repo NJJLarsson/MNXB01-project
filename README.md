@@ -1,13 +1,11 @@
 # MNXB01-project
 Repo for the final project of the MNXB01 course at Lund University. Autumn 2021.
 
-**Group H**
-
-: Ennio Mara, Jesper Larsson and Antton Lamarca
+**Group H**: Ennio Mara, Jesper Larsson and Antton Lamarca
 
 ## Usage
 
-The 'rootlogon.C' file makes it so that the main 'project.cpp' file and the 'src/tempTrender.cpp' file
+The 'rootlogon.C' file makes it so that the main 'project.cpp' file, the 'src/tempTrender.cpp' file and the 'measurement.cpp' file
 are compiled automatically with just starting ROOT.
 (Make sure to include the local path to your 'include/' directory in the 'rootlogon.C' file for it to work!).
 
@@ -32,12 +30,12 @@ You can find information about the development steps of the project in the 'Chan
 
 All the code is stored in the 'code/' directory. It contains the main 'project.cpp' file as well as the 'rootlogon.C' file.
 The 'code/src/' directory contains the 'tempTrender.cpp' file, which has code for three of the proposed example graphs and an original graph that calculates the mean yearly temperature for a city in a given range of years.
-The 'measurement.cpp' file contains code for another original graph that calculates total yearly averages from monthly averages.
+The 'measurement.cpp' file contains code for another original graph that calculates average temperatures for the same month over the years.
 The header files for both are stored in 'code/include/'.
 
 ## Workplan
 
 Broadly speaking, the separation of tasks was the following:
-* Ennio worked on the yearly average graph produced by 'measurement.cpp'.
+* Ennio worked on the graph that shows yearly average temperature for a specific month, produced by 'measurement.cpp'.
 * Jesper worked on the ``` tempMeanYearly() ``` member function of 'tempTrender.cpp'.
 * Antton worked on the non-original member functions of 'tempTrender.cpp': both versions of ``` tempOnDay() ```, and ``` tempPerDay() ```.
