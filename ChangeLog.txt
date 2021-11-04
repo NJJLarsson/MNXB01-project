@@ -10,6 +10,9 @@ Antton: Finished rudimentary imlpementation of the first histogram example.
 -- okt 31 --
 Antton: Finished rudimentary implementation of second example.
 
+-- nov 1 --
+Jesper: Created Function to read data and calculate yearly average temperatures.
+
 -- nov 02 --
 Ennio: Started work of measuring monthly temperature fluctuations, over all
 years
@@ -20,3 +23,4 @@ Ennio: Finished monthly temperature fluctuations
 
 -- nov 04 --
 Antton: Helped fix the tempMeanYearly function. pushed changes to the PR directly.
+

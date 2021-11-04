@@ -1,6 +1,7 @@
 #include <iostream>
-#include<fstream>
+#include <fstream>
 #include <sstream>
+#include <TGraph.h>
 #include<TH1F.h>
 #include<TProfile.h>
 #include<TLegend.h>
@@ -32,6 +33,14 @@ int date_to_number (int month, int day) {
   return month_sum+day;
 }
 
+double VecAvg(vector<double> v){ //Average of vector elements
+  double sum = 0;
+  int denom = v.size();
+  for(int i=0; i < denom; i++){
+    sum += v[i];
+  }
+  return sum/denom;
+} 
 //Member Functions
 // #0
 tempTrender::tempTrender(const string& filePath) : _path{filePath}{ //filePath has now been stored in member variable _path
@@ -233,3 +242,105 @@ void tempTrender::tempPerDay() const { //Make a histogram of the average tempera
 }
 // void tempTrender::hotCold() const {} //Make a histogram of the hottest and coldest day of the year
 // void tempTrender::tempPerYear(int yearToExtrapolate) const {} //Make a histogram of average temperature per year, then fit and extrapolate to the given year
+
+// #4
+void tempTrender::tempMeanYearly(int yearStart, int yearEnd) const { 
+  //create a line-graph showin mean-yearly temperature over time.
+  
+  cout<<"The requested time period was " << yearStart << "-" << yearEnd << endl;
+
+  //Create graph to store/display our data
+  auto graph1 = new TGraph();
+  //Code to open the csv files
+  fstream fin; //File pointer
+  fin.open(_path, ios::in); //Open file at '_path'
+  if (fin.fail()) { //Check that file can be opened.
+    cout << "File could not be opened. Please check that the provided path is correct." << endl;
+	  return;
+  };
+  //Iterate through file, line by line, checking if the date matches with input
+  vector<string> row, rowdate;
+  
+  string line, cell, date_string, YearString, Last_Date;
+  double tempentry; 
+  double tempdailysum = 0; 
+  double tempyearlysum = 0;
+  int sumentries = 0;
+  vector<double> tempdailyaverage, YearlyAverage;
+  double  tempyearlyaverage;
+  int i = 0 ;
+  int k= 0;
+  int Year_Last = 0;
+  int Year_Count = 0;
+  int YearCurrent = 0;
+  bool RepeatedDate = false;
+
+  while (getline(fin, line)){ //read whole file, row by row, store line in variable 'line' each loop
+    i++;
+    row.clear();
+
+    stringstream lineStream(line); //Slice line by ; and store each part in vector 'row'
+	while (lineStream.good() && getline(lineStream, cell, ';')) {
+      row.push_back(cell);
+    }
+	if(i >= 20){ //Does this mean that the user can't select the first year of a dataset?
+              // Yes. Too bad!
+      date_string = row[0]; //save the date of the line
+      if (Last_Date==date_string) {
+        RepeatedDate = true;
+      } else {
+        RepeatedDate = false;
+      }
+      YearString = date_string.substr(0, 4);
+      YearCurrent = stoi(YearString);// Save year to integer
+    } else {
+      continue;
+    }
+
+  
+  //If the year is within the specified range
+    if (YearCurrent>=yearStart && YearCurrent<= yearEnd) {
+      tempentry = stoi(row[2]); //Save temp as int
+
+      //Check wheter current date matches last
+      if (RepeatedDate){ //If yes: add temp entry to the sum of the days entries, increase sum of the entries by one
+        tempdailysum += tempentry ;
+        sumentries++ ;
+      } else { //New day we haven't seen before
+        if (Last_Date.empty()) { //first loop
+          tempdailysum += tempentry ;
+          sumentries++ ;
+        } else { //all other loops beyond the first
+          tempdailyaverage.push_back((tempdailysum / sumentries)); //if not: add sum to vector containing all daily averages 
+          tempdailysum = 0; //Reset tempdailysum & sumentries
+          sumentries = 0;
+
+          //Start calculation for new date
+          tempdailysum += tempentry;
+          sumentries++;
+
+          if(Year_Last == 0 || Year_Last!=YearCurrent){ //If year has changed, sum up all daily entries and average them out.
+            Year_Count++; //keep count of years we've seen
+            //cout << Year_Last << YearCurrent << "Happy New Year" << endl;
+            tempyearlyaverage = VecAvg(tempdailyaverage);
+            tempdailyaverage.clear();
+            YearlyAverage.push_back(tempyearlyaverage);
+            graph1->SetPoint(k,YearCurrent, tempyearlyaverage);
+            k++ ;
+          }
+        }
+      }
+    
+    } else { //if year not in the desired range
+      continue;
+    }
+    //update a copy of the date to check against in the next iteration
+    Last_Date = date_string;
+    Year_Last = YearCurrent;
+
+  }
+
+  cout << "The average temperatures of " << YearlyAverage.size() << " years were calculated" << endl;
+  TCanvas* c5 = new TCanvas("c5", "5- Yearly mean", 900, 600);
+  graph1->Draw();
+}
