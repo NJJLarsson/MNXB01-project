@@ -3,7 +3,7 @@
 #include "measurement.h"
 
 void project() {
-	const std::string pathToFile = "/home/antton/MNXB01-project/datasets/smhi-opendata_1_52230_20210926_100815_Falsterbo.csv"; //Put the path to your data file here
+	const std::string pathToFile = "/home/antton/MNXB01-project/datasets/smhi-opendata_1_53430_20210926_101122_Lund.csv"; //Put the path to your data file here
 	tempTrender t(pathToFile); //Instantiate your analysis object
 	
 	t.tempOnDay(8, 23); //Call some functions that you've implemented
