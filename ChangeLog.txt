@@ -26,3 +26,6 @@ Jesper: Fixed looping over dates and years in tempMeanYearly(). Added code to gr
 Antton: Helped fix the tempMeanYearly() function. pushed changes to the PR directly. Added .tex files for report.
 Ennio: Changed the monthly temperature fit line to be more clear and saved measurements to png files.
 Jesper: Adjusted graph axes for tempMeanYearly(), added grid lines to improve readability.
+
+-- nov 07 --
+Ennio: Updated report with the temperature measurements grouped by month.
